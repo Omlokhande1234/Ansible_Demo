@@ -2,7 +2,8 @@
 - name: Configure MySQL Database Server
   hosts: mysql_servers
   become: true
-
+  collections:
+    - community.mysql 
   vars_files:
     - ../group_vars/vault.yml
     - ../group_vars/mysql_servers.yml
