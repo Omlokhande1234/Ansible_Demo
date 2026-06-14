@@ -1,0 +1,11 @@
+- name: Configure MySQL Database Server
+  hosts: mysql_servers
+  become: true
+
+  vars_files:
+    - ../group_vars/vault.yml
+    - ../group_vars/mysql_servers.yml
+
+  roles:
+    - mysql_destroy
+

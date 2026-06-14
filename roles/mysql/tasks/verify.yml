@@ -1,0 +1,19 @@
+- name: Verify database exists
+  community.mysql.mysql_query:
+    login_unix_socket: /var/lib/mysql/mysql.sock
+    query: "SHOW DATABASES;"
+  register: dbs
+
+- name: Display databases
+  debug:
+    var: dbs.query_result
+
+- name: Verify user exists
+  community.mysql.mysql_query:
+    login_unix_socket: /var/lib/mysql/mysql.sock
+    query: "SELECT User FROM mysql.user;"
+  register: users
+
+- name: Display users
+  debug:
+    var: users.query_result

@@ -1,0 +1,50 @@
+- name: Remove cron job
+  cron:
+    name: "mysql_backup"
+    state: absent
+
+- name: Remove backup script
+  file:
+    path: /usr/local/bin/mysql_backup.sh
+    state: absent
+
+- name: Remove application user
+  community.mysql.mysql_user:
+    login_unix_socket: /var/lib/mysql/mysql.sock
+    name: "{{ mysql_app_user }}"
+    host: "%"
+    state: absent
+
+- name: Remove database
+  community.mysql.mysql_db:
+    login_unix_socket: /var/lib/mysql/mysql.sock
+    name: "{{ mysql_db_name }}"
+    state: absent
+
+- name: Stop MariaDB service
+  service:
+    name: mariadb
+    state: stopped
+
+- name: Disable MariaDB service
+  service:
+    name: mariadb
+    enabled: false
+
+- name: Remove MariaDB packages
+  dnf:
+    name:
+      - mariadb105-server
+      - python3-pip
+    state: absent
+
+- name: Remove MariaDB data directory
+  file:
+    path: /var/lib/mysql
+    state: absent
+
+- name: Remove MariaDB configuration
+  file:
+    path: /etc/my.cnf.d
+    state: absent
+

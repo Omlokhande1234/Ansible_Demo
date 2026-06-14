@@ -1,0 +1,26 @@
+---
+- name: Deploy backup script
+  template:
+    src: mysql_backup.sh.j2
+    dest: /usr/local/bin/mysql_backup.sh
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Install cronie package
+  dnf:
+    name: cronie
+    state: present
+
+- name: Start and enable crond service
+  service:
+    name: crond
+    state: started
+    enabled: true
+
+- name: Schedule MySQL backup
+  cron:
+    name: "mysql_backup"
+    minute: "0"
+    hour: "2"
+    job: "/usr/local/bin/mysql_backup.sh"

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+mysqldump \
+-u root \
+-p'{{ mysql_root_password }}' \
+{{ mysql_db_name }} \
+> /tmp/{{ mysql_db_name }}_$(date +%F).sql

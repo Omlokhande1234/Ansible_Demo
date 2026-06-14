@@ -1,0 +1,21 @@
+# Ansible Vault password files
+.vault_pass
+vault_pass.txt
+
+# Logs
+logs/
+*.log
+
+# SSH keys
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.pyc
+
+# Ansible retry files
+*.retry
+
+# OS files
+.DS_Store

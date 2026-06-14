@@ -1,0 +1,14 @@
+- name: Create company database
+  community.mysql.mysql_db:
+    name: "{{ mysql_db_name }}"
+    state: present
+    login_unix_socket: /var/lib/mysql/mysql.sock
+
+- name: Create application user
+  community.mysql.mysql_user:
+    name: "{{ mysql_app_user }}"
+    password: "{{ mysql_app_password }}"
+    priv: "{{ mysql_db_name }}.*:ALL"
+    host: "%"
+    state: present
+    login_unix_socket: /var/lib/mysql/mysql.sock

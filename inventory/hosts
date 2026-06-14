@@ -1,0 +1,6 @@
+[mysql_servers]
+worker_node ansible_host=10.0.0.37
+
+[mysql_servers:vars]
+ansible_user=ec2-user
+ansible_python_interpreter=/usr/bin/python3

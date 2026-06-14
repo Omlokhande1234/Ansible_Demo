@@ -1,0 +1,21 @@
+---
+- name: Update package cache
+  dnf:
+    update_cache: true
+
+- name: Install MariaDB Server and dependencies
+  dnf:
+    name:
+      - mariadb105-server
+      - python3-pip
+    state: present
+
+- name: Install PyMySQL
+  pip:
+    name: PyMySQL
+
+- name: Start and Enable MariaDB Service
+  service:
+    name: mariadb
+    state: started
+    enabled: true
