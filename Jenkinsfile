@@ -36,8 +36,9 @@ pipeline {
             steps {
                 sh '''
                 ansible-playbook \
+                -i inventory/hosts \
                 playbooks/mysql.yml \
-                --vault-password-file ~/.vault_pass
+                --vault-password-file /var/lib/jenkins/secrets/custom/vault_pass
                 '''
             }
         }
@@ -52,8 +53,9 @@ pipeline {
             steps {
                 sh '''
                 ansible-playbook \
+                -i inventory/hosts \
                 playbooks/destroy.yml \
-                --vault-password-file ~/.vault_pass
+                --vault-password-file /var/lib/jenkins/secrets/custom/vault_pass
                 '''
             }
         }
