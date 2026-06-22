@@ -1,54 +1,70 @@
 pipeline {
-    agent any
+agent any
 
-    parameters {
-        choice(
-            name: 'ACTION',
-            choices: ['DEPLOY', 'DESTROY'],
-            description: 'Choose operation'
-        )
+```
+parameters {
+    choice(
+        name: 'ACTION',
+        choices: ['DEPLOY', 'DESTROY'],
+        description: 'Choose operation'
+    )
+}
+
+stages {
+
+    stage('Git Checkout') {
+        steps {
+            checkout scm
+        }
     }
 
-    stages {
-
-        stage('Git Checkout') {
-            steps {
-                checkout scm
+    stage('Deploy') {
+        when {
+            expression {
+                params.ACTION == 'DEPLOY'
             }
         }
 
-        stage('Deploy') {
-            when {
-                expression {
-                    params.ACTION == 'DEPLOY'
-                }
-            }
+        steps {
+            sh '''
+            ansible-playbook \
+            -i inventory/hosts \
+            playbooks/mysql.yml \
+            --private-key /var/lib/jenkins/.ssh/config.pem \
+            --vault-password-file /home/ec2-user/Ansible_Demo/vault_pass.txt
+            '''
+        }
+    }
 
-            steps {
-                sh '''
-                ansible-playbook \
-                -i inventory/hosts \
-                playbooks/mysql.yml \
-                --vault-password-file /var/lib/jenkins/secrets/custom/vault_pass
-                '''
+    stage('Destroy') {
+        when {
+            expression {
+                params.ACTION == 'DESTROY'
             }
         }
 
-        stage('Destroy') {
-            when {
-                expression {
-                    params.ACTION == 'DESTROY'
-                }
-            }
-
-            steps {
-                sh '''
-                ansible-playbook \
-                -i inventory/hosts \
-                playbooks/destroy.yml \
-                --vault-password-file /var/lib/jenkins/secrets/custom/vault_pass
-                '''
-            }
+        steps {
+            sh '''
+            ansible-playbook \
+            -i inventory/hosts \
+            playbooks/destroy.yml \
+            --private-key /var/lib/jenkins/.ssh/config.pem \
+            --vault-password-file /home/ec2-user/Ansible_Demo/vault_pass.txt
+            '''
         }
     }
 }
+
+post {
+    success {
+        echo 'Pipeline completed successfully.'
+    }
+
+    failure {
+        echo 'Pipeline failed. Check console logs.'
+    }
+}
+```
+
+}
+
