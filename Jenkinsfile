@@ -11,15 +11,6 @@ pipeline {
 
     stages {
 
-        stage('Approval') {
-            steps {
-                input(
-                    message: "Approve ${params.ACTION}?",
-                    ok: "Proceed"
-                )
-            }
-        }
-
         stage('Git Checkout') {
             steps {
                 checkout scm
