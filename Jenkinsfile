@@ -16,6 +16,16 @@ stages {
             checkout scm
         }
     }
+    stage('Approval') { 
+        steps { 
+            script { 
+                input( 
+                    message: "ACTION selected: ${params.ACTION}. Do you want to continue?", 
+                    ok: "Proceed" 
+                ) 
+            } 
+        } 
+    }
 
     stage('Deploy') {
         when {
