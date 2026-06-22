@@ -1,7 +1,6 @@
 pipeline {
 agent any
 
-```
 parameters {
     choice(
         name: 'ACTION',
@@ -64,7 +63,7 @@ post {
         echo 'Pipeline failed. Check console logs.'
     }
 }
-```
 
 }
+
 
