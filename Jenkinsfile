@@ -53,13 +53,15 @@ stages {
         }
 
         steps {
-            sh '''
-            ansible-playbook \
-            -i inventory/hosts \
-            playbooks/destroy.yml \
-            --private-key /var/lib/jenkins/.ssh/config.pem \
-            --vault-password-file /home/ec2-user/Ansible_Demo/vault_pass.txt
-            '''
+            dir("${WORKSPACE}") {
+              sh '''
+              ansible-playbook \
+              -i inventory/hosts \
+              playbooks/destroy.yml \
+              --private-key /var/lib/jenkins/.ssh/config.pem \
+              --vault-password-file /home/ec2-user/Ansible_Demo/vault_pass.txt
+              '''
+           }
         }
     }
 }
