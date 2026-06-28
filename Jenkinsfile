@@ -40,7 +40,7 @@ stages {
             -i inventory/hosts \
             playbooks/mysql.yml \
             --private-key /var/lib/jenkins/.ssh/config.pem \
-            --vault-password-file /home/ec2-user/Ansible_Demo/vault_pass.txt
+            --vault-password-file /home/ec2-user/Ansible_Demo/.vault_pass
             '''
         }
     }
@@ -59,7 +59,7 @@ stages {
               -i inventory/hosts \
               playbooks/destroy.yml \
               --private-key /var/lib/jenkins/.ssh/config.pem \
-              --vault-password-file /home/ec2-user/Ansible_Demo/vault_pass.txt
+              --vault-password-file /home/ec2-user/Ansible_Demo/.vault_pass
               '''
            }
         }
